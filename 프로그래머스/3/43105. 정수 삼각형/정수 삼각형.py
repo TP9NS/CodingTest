@@ -1,18 +1,19 @@
 def solution(triangle):
-    dp = [] #dp 테이블
-    reps = len(triangle) # 삼각형 높이 = 반복 수
+    dp= []
     
-    for i in range(reps):
-        if i == 0:
-            dp.append([triangle[0][0]])
-        else:
-            temp=[]
-            for j in range(len(triangle[i])):
-                if j==0:
-                    temp.append(triangle[i][j]+dp[i-1][j])
-                elif j==len(triangle[i])-1:
-                    temp.append(triangle[i][j]+dp[i-1][j-1])
+    dp.append(triangle[0])
+    
+    for i in range(1,len(triangle)):
+        temp = []
+        for j in range(len(triangle[i])):
+            if j ==0:
+                temp.append(dp[i-1][j]+triangle[i][j])
+            else:
+                if len(dp[i-1])<=j:
+                    temp.append(dp[i-1][j-1]+triangle[i][j])
                 else:
-                    temp.append(max(triangle[i][j]+dp[i-1][j-1],triangle[i][j]+dp[i-1][j]))
-            dp.append(temp)
+                    temp.append(max(dp[i-1][j-1]+triangle[i][j],dp[i-1][j]+triangle[i][j]))
+        dp.append(temp)
+                
+    reps= len(triangle)
     return  max(dp[reps-1]) 
